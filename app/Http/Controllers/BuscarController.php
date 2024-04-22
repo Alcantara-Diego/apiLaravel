@@ -12,12 +12,27 @@ class BuscarController extends Controller
         return response()->json($usuarios, 200);
     }
 
-    public function show($id, $curso){
+    public function showById($id){
+
 
         if($id){
-            $usuario = CrudUsuario::find($id);
-        }
+            $usuario = CrudUsuario::findOrFail($id); 
+            return response()->json($usuario, 200); 
 
-        return response()->json($usuario, 200);;
+        } 
+
+        return response()->json(["error" => "Usuário não encontrado"], 404); 
+    }
+
+    public function showByTipo($tipo){
+        $usuario = CrudUsuario::where("tipo", $tipo)->get();
+
+        return response()->json($usuario, 200);
+    }
+
+    public function showByCurso($curso){
+        $usuario = CrudUsuario::where("curso", $curso)->get();
+
+        return response()->json($usuario, 200);
     }
 }
